@@ -1,0 +1,66 @@
+name: "Github Action: check workday every day"
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 */12 * * *"
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        # This path is specific to Ubuntu
+        path: ~/.cache/pip
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: pip install chinese_calendar
+    - name: Run scripts
+      run: | 
+        python checker.py > output.txt
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: "Github Actions job result : check workday"
+        # Literal body:
+        # body: Build job of ${{github.repository}} completed successfully!
+        # Read file contents as body:
+        body: file://output.txt
+        to: ${{secrets.MAIL_RECEIVER}}
+        from: Github Action # <user@example.com>
+        # Optional carbon copy recipients
+        # cc: kyloren@example.com,leia@example.com
+        # Optional blind carbon copy recipients
+        # bcc: r2d2@example.com,hansolo@example.com
+        # Optional content type (defaults to text/plain):
+        content_type: text/html
+        # Optional converting Markdown to HTML (set content_type to text/html too):
+        convert_markdown: true
+        # Optional attachments:
+        # attachments: attachments.zip,git.diff,./dist/static/main.js
+
+    - name: Commit files
+      run: |
+        git config --local user.email ${{secrets.MAIL_USERNAME}}
+        git config --local user.name "checker(bot)"
+        git add public.txt
+        git commit -m "Github action: updated on $(date +%Y-%m-%d)" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
