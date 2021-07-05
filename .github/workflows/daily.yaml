@@ -48,10 +48,10 @@ jobs:
       run: |
         git config --local user.email ${{secrets.MAIL_USERNAME}}
         git config --local user.name "checker(bot)"
-        git add public.txt
+        git add output.txt
         git commit -m "Github action: updated on $(date +%Y-%m-%d)" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GH_TOKEN }}
-        
+
