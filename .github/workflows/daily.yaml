@@ -48,6 +48,7 @@ jobs:
       run: |
         git config --local user.email ${{secrets.MAIL_USERNAME}}
         git config --local user.name "checker(bot)"
+        echo -e '\n\n> update on:' $(date) '\n' >> output.txt
         git add output.txt
         git commit -m "Github action: updated on $(date +%Y-%m-%d)" -a
     - name: Push changes
