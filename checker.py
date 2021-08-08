@@ -11,7 +11,7 @@ try:
         print(f'Tomorrow {tomorrow} is workday and weekend, do you hava set the alarm clock?')
     
     elif is_workday(today):
-        print(f'Just work.')
+        print(f'Just work in {today}.')
 
     elif is_in_lieu(today):
         print(f'Today {today} is holiday but also lieu.')
