@@ -17,7 +17,7 @@ try:
         print(f'Today {today} is holiday but also lieu.')
 
     elif is_holiday(today):
-        print(f'Today {today} is holiday, hava a gooo day!')
+        print(f'Today {today} is holiday, hava a good day!')
 
 except NotImplementedError:
     print('Please check chinese_calendar had updated and the date is invalid.')
