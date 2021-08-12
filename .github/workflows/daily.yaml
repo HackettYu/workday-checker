@@ -20,7 +20,8 @@ jobs:
     - name: Install dependencies
       run: pip install -U chinese_calendar
     - name: Run scripts
-      run: | 
+      run: |
+        sudo timedatectl set-timezone Asia/Shanghai
         python checker.py > output.txt
     - name: Send mail
       uses: dawidd6/action-send-mail@v2
