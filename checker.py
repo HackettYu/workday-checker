@@ -1,19 +1,29 @@
 import datetime
 from chinese_calendar import is_workday, is_holiday, is_in_lieu
 
-# Fixed: timezone sub 16 hours cause UTC +8 in China
-one_day_duration = datetime.timedelta(days=1)
-today = datetime.date.today()
-tomorrow = datetime.date.today() + one_day_duration
 
-try:
-    if tomorrow.weekday() in (5, 6) and is_workday(tomorrow):
-        print(f'Tomorrow {tomorrow} is workday and weekend, do you hava set the alarm clock?') # noqa
-    elif is_workday(today):
-        print(f'Just work in {today}.')
-    elif is_in_lieu(today):
-        print(f'Today {today} is holiday but also lieu.')
-    elif is_holiday(today):
-        print(f'Today {today} is holiday, have a good day!')
-except NotImplementedError:
-        print('Please check chinese_calendar had updated and the date is invalid.') # noqa
+one_day_duration = datetime.timedelta(days=1)
+
+
+def day_checker(pivot: datetime.date) -> None:
+    try:
+        if pivot.weekday() in (5, 6) and is_workday(tomorrow):
+            print(f'{pivot} is workday and weekend, do you hava set the alarm clock?') # noqa
+        elif is_workday(pivot):
+            print(f'Just work in {pivot}.')
+        elif is_in_lieu(pivot):
+            print(f'{pivot} is holiday but also lieu.')
+        elif is_holiday(pivot):
+            print(f'{pivot} is holiday, have a good day!')
+    except NotImplementedError:
+            print('Please check chinese_calendar had updated and the date is invalid.') # noqa
+
+
+if __name__ == "__main__":
+    today = datetime.date.today()
+    yesterday = today - one_day_duration
+    tomorrow = today + one_day_duration
+
+    day_checker(yesterday)
+    day_checker(today)
+    day_checker(tomorrow)
