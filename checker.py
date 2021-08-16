@@ -7,8 +7,8 @@ one_day_duration = datetime.timedelta(days=1)
 
 def day_checker(pivot: datetime.date) -> None:
     try:
-        if pivot.weekday() in (5, 6) and is_workday(tomorrow):
-            print(f'{pivot} is workday and weekend, do you hava set the alarm clock?') # noqa
+        if pivot.weekday() in (5, 6) and is_workday(pivot):
+            print(f'{pivot} is workday and weekend, do you have set the alarm clock?') # noqa
         elif is_workday(pivot):
             print(f'Just work in {pivot}.')
         elif is_in_lieu(pivot):

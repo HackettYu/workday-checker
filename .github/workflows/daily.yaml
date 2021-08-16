@@ -4,7 +4,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "8 15 * * *"
+    - cron: "15 8 * * *"
 env: # 设置环境变量
   TZ: Asia/Shanghai
 
@@ -21,7 +21,7 @@ jobs:
       run: pip install -U chinese_calendar
     - name: Run scripts
       run: |
-        # sudo timedatectl set-timezone Asia/Shanghai
+        date "+%Y-%m-%d %H:%M:%S"
         python checker.py > output.txt
     - name: Send mail
       uses: dawidd6/action-send-mail@v2
