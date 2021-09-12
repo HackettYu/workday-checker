@@ -4,7 +4,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "15 8 * * *"
+    - cron: "15 12 * * *"
 env: # 设置环境变量
   TZ: Asia/Shanghai
 
@@ -50,7 +50,7 @@ jobs:
 
     - name: Commit files
       run: |
-        git config --local user.email ${{secrets.MAIL_USERNAME}}
+        git config --local user.email action@mail.com
         git config --local user.name "checker(bot)"
         echo -e '\n\n> update on:' $(date) '\n' >> output.txt
         git add output.txt
